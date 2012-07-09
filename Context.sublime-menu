@@ -4,21 +4,32 @@
         "caption": "Talkincode.org",
         "children":
         [
-            { "command": "register_tic", "caption": "Register new user" },
+            { "command": "register_tic_form", "caption": "Register new user" },
+            { "command": "register_tic", "caption": "Register submit" },
             { "caption": "-" },
-            { "command": "query_tic_codes", "caption": "User settings " },
             {
-                "command":"register_tic",
+                "caption": "User Settings",
+                "command": "open_file", "args":
+                {
+                    "file": "${packages}/User/SublimeTalkincode.sublime-settings"
+                }
+            },
+            {
+                "command":"add_tic_code",
                 "caption":"Post current code"
             },    
             {
-                "command":"register_tic",
+                "command":"add_tic_post",
                 "caption":"Post new topic"
             },
             {
-                "command":"register_tic",
-                "caption":"Reply topic"
-            }       
+                "command":"add_tic_code_comment",
+                "caption":"Comment current code"
+            },
+            {
+                "command":"add_tic_post_comment",
+                "caption":"Comment current topic"
+            }           
         ]
     },   
     { "caption": "-" }
