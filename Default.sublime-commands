@@ -1,0 +1,26 @@
+[
+    {
+        "caption": "Preferences: ShareCodeLibrary Settings",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/ShareCodeLibrary/ShareCodeLibrary.sublime-settings"
+        }
+    },
+    {
+        "caption": "Preferences: ShareCodeLibrary Key Bindings",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/ShareCodeLibrary/Default (Windows).sublime-keymap",
+            "platform": "Windows"
+        }
+    },
+    {
+        "caption": "Preferences: ShareCodeLibrary Key Bindings",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/ShareCodeLibrary/Default (Linux).sublime-keymap",
+            "platform": "Linux"
+        }
+    }
+
+]

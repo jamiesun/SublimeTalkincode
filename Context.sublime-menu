@@ -1,0 +1,25 @@
+[
+    { "caption": "-" },
+    {
+        "caption": "Talkincode.org",
+        "children":
+        [
+            { "command": "register_tic", "caption": "Register new user" },
+            { "caption": "-" },
+            { "command": "query_tic_codes", "caption": "User settings " },
+            {
+                "command":"register_tic",
+                "caption":"Post current code"
+            },    
+            {
+                "command":"register_tic",
+                "caption":"Post new topic"
+            },
+            {
+                "command":"register_tic",
+                "caption":"Reply topic"
+            }       
+        ]
+    },   
+    { "caption": "-" }
+]

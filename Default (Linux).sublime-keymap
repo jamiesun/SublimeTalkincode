@@ -1,0 +1,4 @@
+[
+  { "keys": ["ctrl+shift+m"], "command": "share_current_view" },
+  { "keys": ["ctrl+shift+l"], "command": "share_code_query" }
+]
