@@ -1,4 +1,10 @@
 [
-  { "keys": ["super+shift+m"], "command": "share_current_view" },
-  { "keys": ["super+shift+l"], "command": "share_code_query" }
+  { "keys": ["super+alt+h"], "command": "browser_tic_site" },
+  { "keys": ["super+alt+j"], "command": "query_tic_codes" },
+  { "keys": ["super+alt+k"], "command": "query_tic_posts" },
+  { "keys": ["super+alt+r"], "command": "refresh_tic_post" },
+  { "keys": ["super+alt+o"], "command": "add_tic_code" },
+  { "keys": ["super+alt+p"], "command": "add_tic_post_form" },
+  { "keys": ["super+alt+u"], "command": "add_tic_post" },
+  { "keys": ["super+alt+m"], "command": "add_tic_post_comment" }
 ]
