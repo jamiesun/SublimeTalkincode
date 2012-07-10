@@ -4,6 +4,8 @@
         "caption": "Talkincode.org",
         "children":
         [
+            { "command": "browser_tic_site", "caption": "Goto Talkincode.org" },
+            { "caption": "-" },
             { "command": "register_tic_form", "caption": "Register new user" },
             { "command": "register_tic", "caption": "Register submit" },
             { "caption": "-" },
@@ -13,19 +15,25 @@
                 {
                     "file": "${packages}/User/SublimeTalkincode.sublime-settings"
                 }
-            },
+            },          
+            { "caption": "-" },
+            { "command": "query_tic_codes", "caption": "Search code" },
+            { "command": "query_tic_posts", "caption": "Search topic" },
+            { "caption": "-" },
+            { "command": "refresh_tic_post", "caption": "Refresh current topic" },
+            { "caption": "-" },
             {
                 "command":"add_tic_code",
                 "caption":"Post current code"
             },    
             {
-                "command":"add_tic_post",
+                "command":"add_tic_post_form",
                 "caption":"Post new topic"
             },
             {
-                "command":"add_tic_code_comment",
-                "caption":"Comment current code"
-            },
+                "command":"add_tic_post",
+                "caption":"Submit current topic"
+            },         
             {
                 "command":"add_tic_post_comment",
                 "caption":"Comment current topic"
