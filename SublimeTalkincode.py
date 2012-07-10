@@ -158,6 +158,8 @@ class QueryTicPosts(sublime_plugin.WindowCommand):
                     code_file.write("## title:%s\n"%postobj['title'])
                     code_file.write("="*80)
                     code_file.write("\n\n")
+                    code_file.write(postobj['username'])
+                    code_file.write("\n\n")
                     code_file.write(postobj['content'])
                     code_file.write("\n")
                     if comments:
@@ -167,7 +169,7 @@ class QueryTicPosts(sublime_plugin.WindowCommand):
                             code_file.write("\n\n")
                             code_file.write(cm['content'])
                             code_file.write("\n\n")
-                            code_file.write("%s %s\n"%(cm['author'],cm["created"]))
+                            code_file.write("%s %s via:%s\n"%(cm['author'],cm["created"],cm.get("via")))
                     code_file.close()
 
                     code_view = self.window.open_file(post_file_path)
@@ -205,6 +207,8 @@ class RefreshTicPost(sublime_plugin.TextCommand):
             code_file.write("## title:%s\n"%postobj['title'])
             code_file.write("="*80)
             code_file.write("\n\n")
+            code_file.write(postobj['username'])            
+            code_file.write("\n\n")
             code_file.write(postobj['content'])
             code_file.write("\n")
             if comments:
@@ -214,7 +218,7 @@ class RefreshTicPost(sublime_plugin.TextCommand):
                     code_file.write("\n\n")
                     code_file.write(cm['content'])
                     code_file.write("\n\n")
-                    code_file.write("%s %s\n"%(cm['author'],cm["created"]))
+                    code_file.write("%s %s via %s\n"%(cm['author'],cm["created"],cm.get("via")))
             code_file.close()
             # sublime.active_window().run_command('close')
             # code_view = sublime.active_window().open_file(post_file_path)
@@ -316,10 +320,12 @@ class AddTicPost(sublime_plugin.TextCommand):
             titlegrp = re.search("@title:(.*)\n",content_src)
             groupgrp = re.search("@groupid:(.*)\n",content_src)
             tagsgrp = re.search("@tags:(.*)\n",content_src)
-            contentgrp = re.search("@content:(.*)",content_src)
+
+            region2 = sublime.Region(content_src.index("@content:"), view.size())
+            content = view.substr(region2)
             
             title = titlegrp and titlegrp.group(1)
-            content = contentgrp and contentgrp.group(1)
+            #content = contentgrp and contentgrp.group(1)
             tags = tagsgrp and tagsgrp.group(1)
             groupid = groupgrp and groupgrp.group(1) or 0
 
