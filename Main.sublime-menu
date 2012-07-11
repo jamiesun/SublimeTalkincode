@@ -19,7 +19,7 @@
                             {
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/Sublime-Talkincode/Default (Windows).sublime-keymap",
+                                    "file": "${packages}/SublimeTalkincode/Default (Windows).sublime-keymap",
                                     "platform": "Windows"
                                 },
                                 "caption": "Key Bindings – Default"
@@ -27,7 +27,7 @@
                             {
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/Sublime-Talkincode/Default (OSX).sublime-keymap",
+                                    "file": "${packages}/SublimeTalkincode/Default (OSX).sublime-keymap",
                                     "platform": "OSX"
                                 },
                                 "caption": "Key Bindings – Default"
@@ -35,7 +35,7 @@
                             {
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/Sublime-Talkincode/Default (Linux).sublime-keymap",
+                                    "file": "${packages}/SublimeTalkincode/Default (Linux).sublime-keymap",
                                     "platform": "Linux"
                                 },
                                 "caption": "Key Bindings – Default"
