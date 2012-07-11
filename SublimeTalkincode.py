@@ -321,7 +321,7 @@ class AddTicPost(sublime_plugin.TextCommand):
             groupgrp = re.search("@groupid:(.*)\n",content_src)
             tagsgrp = re.search("@tags:(.*)\n",content_src)
 
-            region2 = sublime.Region(content_src.index("@content:"), view.size())
+            region2 = sublime.Region(content_src.index("@content:")+9, view.size())
             content = view.substr(region2)
             
             title = titlegrp and titlegrp.group(1)
