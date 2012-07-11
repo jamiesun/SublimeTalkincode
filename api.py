@@ -3,12 +3,12 @@ import json
 
 api_base_url = "http://www.talkincode.org/api/"
 
-langset = {"java":"java","c":"c","cpp":"c++",
+langset = {"java":"java","c":"c","cpp":"c++","sh":"shell",
            "pas":"pascal","rb":"ruby","php":"php",
            "pl":"perl","js":"javascript","sql":"sql",
            "lsp":"lisp","py":"python",'css':'css','html':'html'}
 
-langextset = {'c': 'c', 'java': 'java', 'lisp': 'lsp', 
+langextset = {'c': 'c', 'java': 'java', 'lisp': 'lsp', "shell":"sh",
               'javascript': 'js', 'c++': 'cpp', 'perl': 'pl',
                'python': 'py', 'pascal': 'pas', 'sql': 'sql',
                 'php': 'php', 'ruby': 'rb','css':'css','html':'html'}
