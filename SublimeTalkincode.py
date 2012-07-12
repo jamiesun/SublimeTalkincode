@@ -17,6 +17,7 @@ settings = sublime.load_settings("SublimeTalkincode.sublime-settings")
 register_flag = "Talkincode.org Register:"
 codeid_flag = "Talkincode.org @codeid:"
 postid_flag = "Talkincode.org @postid:"
+newpost_flag = "Talkincode.org new Topic:"
 
 ########################################################################################
 ####   Talkincode.org Register                  
@@ -344,37 +345,24 @@ class AddTicPostForm(sublime_plugin.TextCommand):
         self.view = view           
 
     def run(self, edit):
-        groupset = []
-        def cbk(idx):
-            if idx == -1:return
-            gname = groupset[idx]
-            grpid = gname[:gname.index("--")]
-            rview = sublime.active_window().new_file()
-            sublime.active_window().focus_view(rview)
-            rview.insert(edit,0,"Talkincode.org new Topic:\n@groupid:%s\n@title:\n@tags:\n@content:"%grpid)
-        try:
-            grps = api.get_groups()
-            for grp in grps:
-                groupset.append("%s--%s"%(grp["id"],grp["name"]))
-        except:
-            groupset = ["0--general group"]
-        sublime.active_window().show_quick_panel(groupset,cbk)
-
+        rview = sublime.active_window().new_file()
+        sublime.active_window().focus_view(rview)
+        rview.insert(edit,0,"%s\n@title:\n@tags:\n@content:"%newpost_flag)
+        
     def is_visible(self):
-        return self.view.find("Talkincode.org new Topic:",0,sublime.IGNORECASE) is None         
+        return self.view.find(newpost_flag,0,sublime.IGNORECASE) is None         
 
 class AddTicPost(sublime_plugin.TextCommand):
     def __init__(self,view):
         self.view = view
     def is_visible(self):
-        return self.view.find("Talkincode.org new Topic:",0,sublime.IGNORECASE) is not None           
+        return self.view.find(newpost_flag,0,sublime.IGNORECASE) is not None           
     def run(self, edit):
         try:
             view = self.view
             region = sublime.Region(0L, view.size())
             content_src = view.substr(region)
             titlegrp = re.search("@title:(.*)\n",content_src)
-            groupgrp = re.search("@groupid:(.*)\n",content_src)
             tagsgrp = re.search("@tags:(.*)\n",content_src)
 
             region2 = sublime.Region(content_src.index("@content:")+9, view.size())
@@ -383,7 +371,6 @@ class AddTicPost(sublime_plugin.TextCommand):
             title = titlegrp and titlegrp.group(1)
             #content = contentgrp and contentgrp.group(1)
             tags = tagsgrp and tagsgrp.group(1)
-            groupid = groupgrp and groupgrp.group(1) or 0
 
             if not title or not content:
                 sublime.error_message("title,content can not be empty")
@@ -392,7 +379,6 @@ class AddTicPost(sublime_plugin.TextCommand):
                     return
                 
                 params = dict(
-                    gid=groupid,
                     title=title,
                     tags=tags,
                     content=content,
