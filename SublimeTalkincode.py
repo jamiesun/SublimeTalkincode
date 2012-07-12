@@ -313,7 +313,7 @@ class AddTicCode(sublime_plugin.TextCommand):
                     if len(fext) >1:
                         fext = fext[1:]
                     lang = api.get_lang(fext)
-                    tags = "%s,%s"%(lang,tags)
+                    tags = tags and "%s,%s"%(lang,tags) or lang
                     params = dict(pid=pid,
                         title=title,
                         author=settings.get("author"),
