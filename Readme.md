@@ -37,7 +37,11 @@ Features
 
 `Search code`:Search talkincode.org code
 
+`Fetch my code`:Fetch my code
+
 `Search topic`:Search talkincode.org topic
+
+`Fetch my topic`:Fetch my topic
 
 *************************************************************************
 [submineTalkincode](http://www.talkincode.org) 是一个[Sublime Text 2](http://www.sublimetext.com/2) 的插件，通过这个插件可以直接在sublime text 2 中分享代码和讨论话题 
@@ -72,7 +76,11 @@ Features
 
 `Search code`:搜索talkincode.org的代码，输入关键字，查询请求会发送到talkincode.org，然后返回一个结果列表，你可以查看你感兴趣的代码。
 
+`Fetch my code`:获取自己的代码列表
+
 `Search topic`:和搜索代码一样，你可以搜索你感兴趣的话题，打开一个话题，你还可以对他进行评论。
+
+`Fetch my topic`:获取自己发布的主题
 
 `Post current code`: 将你当前视图中的代码分享到talkincode.org，在代码中必须包含(单独一行)“@description:{some txt}”,这会成为这段代码的标题，同时你也可以加入标签，通过包含(单独一行)“@tags:...”，你可以把这些内容放在注释你而不影响代码的运行。比如：
 
