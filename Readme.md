@@ -82,11 +82,9 @@ Features
 
 `Fetch my topic`:获取自己发布的主题
 
-`Post current code`: 将你当前视图中的代码分享到talkincode.org，在代码中必须包含(单独一行)“@description:{some txt}”,这会成为这段代码的标题，同时你也可以加入标签，通过包含(单独一行)“@tags:...”，你可以把这些内容放在注释你而不影响代码的运行。比如：
+`Post current code`: 将你当前视图中的代码分享到talkincode.org，你可以加入标签，通过包含(单独一行)“@tags:...”，你可以把这些内容放在注释你而不影响代码的运行。比如：
 
-    # @description: 一段python代码
     # @tags:python,helloword
-
     print 'hello world'
 
 `Post new topic`: 发布一个讨论话题到talkincode.org，在talkincode.org中你可以讨论各种关于编程的话题，直接在很酷的sublime text 2编辑器中讨论，这看起来更酷了。
