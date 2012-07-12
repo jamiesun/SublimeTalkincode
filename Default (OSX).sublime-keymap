@@ -1,5 +1,7 @@
 [
   { "keys": ["super+alt+h"], "command": "browser_tic_site" },
+  { "keys": ["super+alt+f"], "command": "query_tic_my_codes" },
+  { "keys": ["super+alt+g"], "command": "query_tic_my_posts" },
   { "keys": ["super+alt+j"], "command": "query_tic_codes" },
   { "keys": ["super+alt+k"], "command": "query_tic_posts" },
   { "keys": ["super+alt+r"], "command": "refresh_tic_post" },

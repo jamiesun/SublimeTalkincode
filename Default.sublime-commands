@@ -10,9 +10,11 @@
                 }
             },
             { "command": "query_tic_codes", "caption": "Talkincode.org: Search code" },
+            { "command": "query_tic_my_codes", "caption": "Talkincode.org: fetch my code" },
             { "command": "query_tic_posts", "caption": "Talkincode.org: Search topic" },
-            {"command":"add_tic_code","caption":"Talkincode.org: Post current code"},  
-            {"command":"add_tic_post_form","caption":"Talkincode.org: Post new topic" },              
-            {"command":"add_tic_post","caption":"Talkincode.org: Submit current topic"},
-            {"command":"add_tic_post_comment","caption":"Talkincode.org: Comment current topic"}           
+            { "command": "query_tic_my_posts", "caption": "Talkincode.org: fetch my topic" },
+            { "command":"add_tic_code","caption":"Talkincode.org: Post current code"},  
+            { "command":"add_tic_post_form","caption":"Talkincode.org: Post new topic" },              
+            { "command":"add_tic_post","caption":"Talkincode.org: Submit current topic"},
+            { "command":"add_tic_post_comment","caption":"Talkincode.org: Comment current topic"}           
         ]

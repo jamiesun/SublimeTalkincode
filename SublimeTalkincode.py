@@ -82,6 +82,46 @@ class RegisterTic(sublime_plugin.TextCommand):
 ####   Talkincode.org search                
 ########################################################################################
 
+def get_code_content(result,idx):
+    uid = result[idx]["id"]
+    lang = api.get_lang_ext(result[idx]["lang"])
+    code_file_path = "%s/%s.%s"%(os.environ["TMP"],uid,lang)
+
+    codeobj = api.get_code(uid)
+    if type(codeobj) ==dict and codeobj.has_key("error"):
+        raise Exception(codeobj.get("error"))
+
+    code_file = open(code_file_path,"wb")
+    code_file.write("%s%s\n"%(codeid_flag,uid))
+    code_file.write(codeobj['content'])
+    code_file.close()
+    return code_file_path
+
+class QueryTicMyCodes(sublime_plugin.WindowCommand):
+    def run(self):      
+        sublime.status_message("search my code, please wait......")
+        try:
+            result = api.list_mycodes(settings.get("authkey"))
+            if type(result) ==dict and result.has_key("error"):
+                raise Exception(result.get("error"))
+
+            def format_it(row):
+                return  ["%s - %s"%(row["lang"],row["title"]),
+                         "by @%s <%s> hits : %s"%(row["author"],row["email"],row["hits"] )]
+            items = [format_it(row) for row in result]
+
+            def on_code_click(idx):
+                if idx == -1:
+                    return
+                code_view = self.window.open_file(get_code_content(result,idx))
+                self.window.focus_view(code_view)
+
+            self.window.show_quick_panel(items,on_code_click)            
+        except Exception, e:
+            sublime.error_message("error:%s"%e)            
+
+
+
 class QueryTicCodes(sublime_plugin.WindowCommand):
     def run(self):      
         sublime.status_message("search code, please wait......")
@@ -99,20 +139,7 @@ class QueryTicCodes(sublime_plugin.WindowCommand):
                 def on_code_click(idx):
                     if idx == -1:
                         return
-                    uid = result[idx]["id"]
-                    lang = api.get_lang_ext(result[idx]["lang"])
-                    code_file_path = "%s/%s.%s"%(os.environ["TMP"],uid,lang)
-
-                    codeobj = api.get_code(uid)
-                    if type(codeobj) ==dict and codeobj.has_key("error"):
-                        raise Exception(codeobj.get("error"))
-
-                    code_file = open(code_file_path,"wb")
-                    code_file.write("%s%s\n"%(codeid_flag,uid))
-                    code_file.write(codeobj['content'])
-                    code_file.close()
-
-                    code_view = self.window.open_file(code_file_path)
+                    code_view = self.window.open_file(get_code_content(result,idx))
                     self.window.focus_view(code_view)
 
                 self.window.show_quick_panel(items,on_code_click)            
@@ -121,6 +148,64 @@ class QueryTicCodes(sublime_plugin.WindowCommand):
 
         self.window.show_input_panel("search keyword::","",on_input,None,None)
 
+
+def get_post_content(result,idx):
+    uid = result[idx]["id"]
+    post_file_path = "%s/%s.md"%(os.environ["TMP"],uid)
+    post_result = api.get_post(uid)
+    if not post_result:
+        raise Exception(post_result.get("content not exists"))
+    if type(post_result) ==dict and post_result.has_key("error"):
+        raise Exception(post_result.get("error"))
+
+    postobj = post_result['post']
+    comments = post_result['comments']
+    code_file = open(post_file_path,"wb")
+    code_file.write("%s%s\n\n"%(postid_flag,uid))
+    code_file.write("## title:%s\n"%postobj['title'])
+    code_file.write("="*80)
+    code_file.write("\n\n")
+    code_file.write(postobj['username'])
+    code_file.write("\n\n")
+    code_file.write(postobj['content'])
+    code_file.write("\n")
+    if comments:
+        for cm in comments:
+            code_file.write("\n")
+            code_file.write("* "*40)
+            code_file.write("\n\n")
+            code_file.write(cm['content'])
+            code_file.write("\n\n")
+            code_file.write("%s %s via:%s\n"%(cm['author'],cm["created"],cm.get("via")))
+    code_file.close()   
+    return post_file_path
+
+class QueryTicMyPosts(sublime_plugin.WindowCommand):
+    def run(self):      
+        sublime.status_message("search my topic, please wait......")
+        try:
+            result = api.list_myposts(settings.get("authkey"))
+            if not result:
+                return
+
+            if type(result) ==dict and result.has_key("error"):
+                raise Exception(result.get("error"))
+
+            def format_it(row):
+                return  ["%s - %s"%(row["title"],row["tags"]),
+                         "by @%s  hits : %s %s"%(row["username"],row["hits"],row["created"]  )]
+            items = [format_it(row) for row in result]
+
+            def on_post_click(idx):
+                if idx == -1:
+                    return
+                code_view = self.window.open_file(get_post_content(result,idx))
+                self.window.focus_view(code_view)
+
+            self.window.show_quick_panel(items,on_post_click)            
+        except Exception, e:
+            sublime.error_message("error:%s"%e)            
+ 
         
 class QueryTicPosts(sublime_plugin.WindowCommand):
     def run(self):      
@@ -142,37 +227,7 @@ class QueryTicPosts(sublime_plugin.WindowCommand):
                 def on_post_click(idx):
                     if idx == -1:
                         return
-                    uid = result[idx]["id"]
-                    post_file_path = "%s/%s.md"%(os.environ["TMP"],uid)
-
-                    post_result = api.get_post(uid)
-                    if not post_result:
-                        raise Exception(post_result.get("content not exists"))
-                    if type(post_result) ==dict and post_result.has_key("error"):
-                        raise Exception(post_result.get("error"))
-
-                    postobj = post_result['post']
-                    comments = post_result['comments']
-                    code_file = open(post_file_path,"wb")
-                    code_file.write("%s%s\n\n"%(postid_flag,uid))
-                    code_file.write("## title:%s\n"%postobj['title'])
-                    code_file.write("="*80)
-                    code_file.write("\n\n")
-                    code_file.write(postobj['username'])
-                    code_file.write("\n\n")
-                    code_file.write(postobj['content'])
-                    code_file.write("\n")
-                    if comments:
-                        for cm in comments:
-                            code_file.write("\n")
-                            code_file.write("* "*40)
-                            code_file.write("\n\n")
-                            code_file.write(cm['content'])
-                            code_file.write("\n\n")
-                            code_file.write("%s %s via:%s\n"%(cm['author'],cm["created"],cm.get("via")))
-                    code_file.close()
-
-                    code_view = self.window.open_file(post_file_path)
+                    code_view = self.window.open_file(get_post_content(result,idx))
                     self.window.focus_view(code_view)
 
                 self.window.show_quick_panel(items,on_post_click)            

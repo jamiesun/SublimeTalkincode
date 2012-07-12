@@ -84,5 +84,15 @@ def list_posts(q,limit=100):
     url = api_base_url + "post/index"
     return do_request(params,url,"get")
 
+def list_mycodes(authkey,limit=100):
+    params = dict(authkey=authkey,limit=limit)
+    url = api_base_url + "code/my"
+    return do_request(params,url,"get")
+
+def list_myposts(authkey,limit=100):
+    params = dict(authkey=authkey,limit=limit)
+    url = api_base_url + "post/my"
+    return do_request(params,url,"get")
+
 if __name__ == "__main__":
     print get_lang_ext("python")
