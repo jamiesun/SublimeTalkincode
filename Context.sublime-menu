@@ -23,24 +23,24 @@
             { "command": "query_tic_my_posts", "caption": "Fetch my topic" },
             { "caption": "-" },
             { "command": "refresh_tic_post", "caption": "Refresh current topic" },
-            { "caption": "-" },
-            {
-                "command":"add_tic_code",
-                "caption":"Post current code"
-            },    
-            {
-                "command":"add_tic_post_form",
-                "caption":"Post new topic"
-            },
-            {
-                "command":"add_tic_post",
-                "caption":"Submit current topic"
-            },         
-            {
-                "command":"add_tic_post_comment",
-                "caption":"Comment current topic"
-            }           
+            { "caption": "-" }   
         ]
-    },   
+    },  
+    {
+        "command":"add_tic_code",
+        "caption":"Post current code"
+    },    
+    {
+        "command":"add_tic_post_form",
+        "caption":"Post new topic"
+    },
+    {
+        "command":"add_tic_post",
+        "caption":"Submit current topic"
+    },         
+    {
+        "command":"add_tic_post_comment",
+        "caption":"Comment current topic"
+    },      
     { "caption": "-" }
 ]
