@@ -414,8 +414,8 @@ class UpdateTicPost(sublime_plugin.TextCommand):
             #content = contentgrp and contentgrp.group(1)
             tags = tagsgrp and tagsgrp.group(1)
 
-            if not postid or not title or not content:
-                sublime.error_message("postid,title,content can not be empty")
+            if not postid or not content:
+                sublime.error_message("postid,content can not be empty")
             else:
                 if not sublime.ok_cancel_dialog("submit topic to talkincode.org,continue?"):
                     return
