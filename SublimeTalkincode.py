@@ -169,6 +169,7 @@ def get_post_content(result,idx):
     code_file.write("="*80)
     code_file.write("\n")
     code_file.write(postobj['content'])
+    code_file.write("\n")
     code_file.write("="*80)
     code_file.write("\n")
     if comments:
@@ -267,6 +268,7 @@ class RefreshTicPost(sublime_plugin.TextCommand):
             code_file.write("="*80)
             code_file.write("\n")
             code_file.write(postobj['content'])
+            code_file.write("\n")
             code_file.write("="*80)
             code_file.write("\n")
             if comments:
@@ -408,7 +410,7 @@ class UpdateTicPost(sublime_plugin.TextCommand):
             postidgrp = re.search("@postid:(.*)\n",content_src)
             titlegrp = re.search("@title:(.*)\n",content_src)
             tagsgrp = re.search("@tags:(.*)\n",content_src)
-            pt = "="*80 + "\n(.*)" + "="*80
+            pt = "="*80 + "\n(.*)\n" + "="*80
             contentgrp = re.search(pt,content_src)
             content = contentgrp and contentgrp.group(1)
             postid = postidgrp and postidgrp.group(1)
