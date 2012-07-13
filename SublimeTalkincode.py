@@ -163,12 +163,13 @@ def get_post_content(result,idx):
     comments = post_result['comments']
     code_file = open(post_file_path,"wb")
     code_file.write("%s%s\n\n"%(postid_flag,uid))
-    code_file.write("## title:%s\n"%postobj['title'])
+    code_file.write("## @title:%s\n"%postobj['title'])
+    code_file.write("## @tags:%s\n"%postobj['tags'])
+    code_file.write("## @author:%s\n"%postobj['username'])
     code_file.write("="*80)
-    code_file.write("\n\n")
-    code_file.write(postobj['username'])
-    code_file.write("\n\n")
+    code_file.write("\n")
     code_file.write(postobj['content'])
+    code_file.write("="*80)
     code_file.write("\n")
     if comments:
         for cm in comments:
@@ -260,12 +261,13 @@ class RefreshTicPost(sublime_plugin.TextCommand):
             comments = post_result['comments']
             code_file = open(post_file_path,"wb")
             code_file.write("%s%s\n\n"%(postid_flag,uid))
-            code_file.write("## title:%s\n"%postobj['title'])
+            code_file.write("## @title:%s\n"%postobj['title'])
+            code_file.write("## @tags:%s\n"%postobj['tags'])
+            code_file.write("## @author:%s\n"%postobj['username'])
             code_file.write("="*80)
-            code_file.write("\n\n")
-            code_file.write(postobj['username'])            
-            code_file.write("\n\n")
+            code_file.write("\n")
             code_file.write(postobj['content'])
+            code_file.write("="*80)
             code_file.write("\n")
             if comments:
                 for cm in comments:
@@ -406,9 +408,9 @@ class UpdateTicPost(sublime_plugin.TextCommand):
             postidgrp = re.search("@postid:(.*)\n",content_src)
             titlegrp = re.search("@title:(.*)\n",content_src)
             tagsgrp = re.search("@tags:(.*)\n",content_src)
-
-            region2 = sublime.Region(content_src.index("@content:")+9, view.size())
-            content = view.substr(region2)
+            pt = "="*80 + "\n(.*)" + "="*80
+            contentgrp = re.search(pt,content_src)
+            content = contentgrp and contentgrp.group(1)
             postid = postidgrp and postidgrp.group(1)
             title = titlegrp and titlegrp.group(1)
             #content = contentgrp and contentgrp.group(1)
