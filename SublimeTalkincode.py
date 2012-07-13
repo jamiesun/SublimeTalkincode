@@ -163,15 +163,13 @@ def get_post_content(result,idx):
     comments = post_result['comments']
     code_file = open(post_file_path,"wb")
     code_file.write("%s%s\n\n"%(postid_flag,uid))
-    code_file.write("## @title:%s\n"%postobj['title'])
-    code_file.write("## @tags:%s\n"%postobj['tags'])
-    code_file.write("## @author:%s\n"%postobj['username'])
-    code_file.write("="*80)
-    code_file.write("\n")
+    code_file.write("### @title:%s\n"%postobj['title'])
+    code_file.write("### @tags:%s\n"%postobj['tags'])
+    code_file.write("### @author:%s\n"%postobj['username'])
+    code_file.write("### @content:\n\n")
     code_file.write(postobj['content'])
-    code_file.write("\n")
-    code_file.write("="*80)
-    code_file.write("\n")
+    code_file.write("\n\n")
+    code_file.write("### @comments:\n\n")
     if comments:
         for cm in comments:
             code_file.write("\n")
@@ -265,12 +263,10 @@ class RefreshTicPost(sublime_plugin.TextCommand):
             code_file.write("## @title:%s\n"%postobj['title'])
             code_file.write("## @tags:%s\n"%postobj['tags'])
             code_file.write("## @author:%s\n"%postobj['username'])
-            code_file.write("="*80)
-            code_file.write("\n")
+            code_file.write("### @content:\n\n")
             code_file.write(postobj['content'])
-            code_file.write("\n")
-            code_file.write("="*80)
-            code_file.write("\n")
+            code_file.write("\n\n")
+            code_file.write("### @comments:\n\n")
             if comments:
                 for cm in comments:
                     code_file.write("\n")
@@ -410,13 +406,12 @@ class UpdateTicPost(sublime_plugin.TextCommand):
             postidgrp = re.search("@postid:(.*)\n",content_src)
             titlegrp = re.search("@title:(.*)\n",content_src)
             tagsgrp = re.search("@tags:(.*)\n",content_src)
-            pt = "="*80 + "\n(.*)\n" + "="*80
-            contentgrp = re.search(pt,content_src)
-            content = contentgrp and contentgrp.group(1)
             postid = postidgrp and postidgrp.group(1)
             title = titlegrp and titlegrp.group(1)
-            #content = contentgrp and contentgrp.group(1)
             tags = tagsgrp and tagsgrp.group(1)
+
+            region2 = sublime.Region(content_src.index("@content:")+9, content_src.index("### @comments:"))
+            content = view.substr(region2)
 
             if not postid or not content:
                 sublime.error_message("postid,content can not be empty")
