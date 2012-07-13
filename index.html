@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Sublimetalkincode : Sublime Text 2 plugin for share source code and send topic to Talkincode.org" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Sublimetalkincode</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/jamiesun/SublimeTalkincode">View on GitHub</a>
+
+          <h1 id="project_title">Sublimetalkincode</h1>
+          <h2 id="project_tagline">Sublime Text 2 plugin for share source code and send topic to Talkincode.org</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/jamiesun/SublimeTalkincode/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/jamiesun/SublimeTalkincode/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>Install</h3>
+
+<p>Through <a href="http://wbond.net/sublime_packages/package_control">Package Control</a></p>
+
+<p><code>Command Palette</code> &gt; <code>Package Control: Install Package</code> &gt; <code>SublimeTalkincode</code></p>
+
+<p>or clone this repository in</p>
+
+<ul>
+<li>Windows: <code>%APPDATA%/Roaming/Sublime Text 2/Packages/</code>
+</li>
+<li>OSX: <code>~/Library/Application Support/Sublime Text 2/Packages/</code>
+</li>
+<li>Linux: <code>~/.Sublime Text 2/Packages/</code>
+</li>
+<li>Portable Installation: <code>Sublime Text 2/Data/</code>
+</li>
+</ul><h3>Usage</h3>
+
+<p><code>Command Palette</code> &gt; <code>Talkincode.org: ...</code></p>
+
+<p><code>Context menu</code> &gt; <code>Talkincode.org</code></p>
+
+<h3>Features</h3>
+
+<p><code>Register new user</code>: join talkincode.org,You will receive a authkey</p>
+
+<p><code>Post current code</code>: share current source code to talkincode.org</p>
+
+<p><code>Post new topic</code>: Publish a topic and post to talkincode.org</p>
+
+<p><code>Update current topic</code>:Update currnt topic </p>
+
+<p><code>Comment current topic</code>:Comment on the topic you open</p>
+
+<p><code>Search code</code>:Search talkincode.org code</p>
+
+<p><code>Fetch my code</code>:Fetch my code</p>
+
+<p><code>Search topic</code>:Search talkincode.org topic</p>
+
+<p><code>Fetch my topic</code>:Fetch my topic</p>
+
+<hr><p><a href="http://www.talkincode.org">submineTalkincode</a> 是一个<a href="http://www.sublimetext.com/2">Sublime Text 2</a> 的插件，通过这个插件可以直接在sublime text 2 中分享代码和讨论话题 </p>
+
+<h3>安装</h3>
+
+<p>通过 <a href="http://wbond.net/sublime_packages/package_control">Package Control</a></p>
+
+<p><code>Command Palette</code> &gt; <code>Package Control: Install Package</code> &gt; <code>SublimeTalkincode</code></p>
+
+<p>或者直接在插件目录克隆这个<a href="https://github.com/jamiesun/SublimeTalkincode">仓库</a></p>
+
+<ul>
+<li>Windows: <code>%APPDATA%/Roaming/Sublime Text 2/Packages/</code>
+</li>
+<li>OSX: <code>~/Library/Application Support/Sublime Text 2/Packages/</code>
+</li>
+<li>Linux: <code>~/.Sublime Text 2/Packages/</code>
+</li>
+<li>Portable Installation: <code>Sublime Text 2/Data/</code>
+</li>
+</ul><h3>如何使用</h3>
+
+<ul>
+<li><p><code>Tools</code> &gt; <code>Command Palette</code> &gt; <code>Talkincode.org: ...</code></p></li>
+<li><p>在编辑器上下文（鼠标右键）菜单中通过Talkincode.org项</p></li>
+<li><p>大部分功能都有快捷键，在菜单 <code>preferences</code> &gt; <code>Package Settings</code> &gt; <code>Sublime Talkincode</code> 你可以找到,   你也可以设置自己习惯的快捷键。</p></li>
+</ul><h3>功能特性</h3>
+
+<p><code>Register new user</code>: 注册成为talkincode.org的成员，你将获得一个authkey，在发布内容时它用来认证身份</p>
+
+<p><code>Search code</code>:搜索talkincode.org的代码，输入关键字，查询请求会发送到talkincode.org，然后返回一个结果列表，你可以查看你感兴趣的代码。</p>
+
+<p><code>Fetch my code</code>:获取自己的代码列表</p>
+
+<p><code>Search topic</code>:和搜索代码一样，你可以搜索你感兴趣的话题，打开一个话题，你还可以对他进行评论。</p>
+
+<p><code>Fetch my topic</code>:获取自己发布的主题</p>
+
+<p><code>Post current code</code>: 将你当前视图中的代码分享到talkincode.org，你可以加入标签，通过包含(单独一行)“@tags:...”，你可以把这些内容放在注释你而不影响代码的运行。比如：</p>
+
+<pre><code># @tags:python,helloword
+print 'hello world'
+</code></pre>
+
+<p><code>Post new topic</code>: 发布一个讨论话题到talkincode.org，在talkincode.org中你可以讨论各种关于编程的话题，直接在很酷的sublime text 2编辑器中讨论，这看起来更酷了。</p>
+
+<p><code>Update current topic</code>:修改当前打开的主题</p>
+
+<p><code>Comment current topic</code>:对当前打开的话题进行评论</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Sublimetalkincode maintained by <a href="https://github.com/jamiesun">jamiesun</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-33313432-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
