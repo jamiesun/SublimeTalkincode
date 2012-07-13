@@ -393,6 +393,49 @@ class AddTicPost(sublime_plugin.TextCommand):
             sublime.error_message("submit topic error %s "%e)
 
 
+class UpdateTicPost(sublime_plugin.TextCommand):
+    def __init__(self,view):
+        self.view = view
+    def is_visible(self):
+        return self.view.find(postid_flag,0,sublime.IGNORECASE) is not None           
+    def run(self, edit):
+        try:
+            view = self.view
+            region = sublime.Region(0L, view.size())
+            content_src = view.substr(region)
+            postidgrp = re.search("@postid:(.*)\n",content_src)
+            titlegrp = re.search("@title:(.*)\n",content_src)
+            tagsgrp = re.search("@tags:(.*)\n",content_src)
+
+            region2 = sublime.Region(content_src.index("@content:")+9, view.size())
+            content = view.substr(region2)
+            postid = postidgrp and postidgrp.group(1)
+            title = titlegrp and titlegrp.group(1)
+            #content = contentgrp and contentgrp.group(1)
+            tags = tagsgrp and tagsgrp.group(1)
+
+            if not postid or not title or not content:
+                sublime.error_message("postid,title,content can not be empty")
+            else:
+                if not sublime.ok_cancel_dialog("submit topic to talkincode.org,continue?"):
+                    return
+                
+                params = dict(
+                    postid=postid,
+                    title=title,
+                    tags=tags,
+                    content=content,
+                    authkey=settings.get("authkey"))
+                
+                result = api.update_post(params)
+                if result and result.has_key("error"):
+                    raise Exception(result["error"])
+                else:
+                    sublime.message_dialog("success")
+        except Exception,e:
+            sublime.error_message("submit topic error %s "%e)
+
+
 class AddTicPostComment(sublime_plugin.TextCommand):
     def __init__(self,view):
         self.view = view

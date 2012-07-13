@@ -16,5 +16,6 @@
             { "command":"add_tic_code","caption":"Talkincode.org: Post current code"},  
             { "command":"add_tic_post_form","caption":"Talkincode.org: Post new topic" },              
             { "command":"add_tic_post","caption":"Talkincode.org: Submit current topic"},
+            { "command":"add_tic_post","caption":"Talkincode.org: Update current topic"},
             { "command":"add_tic_post_comment","caption":"Talkincode.org: Comment current topic"}           
         ]

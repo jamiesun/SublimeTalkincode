@@ -65,6 +65,11 @@ def add_post(params):
     url = api_base_url + "post/add"
     return do_request(params,url,"post")
 
+def update_post(params):
+    params["via"] = "sublime text 2"
+    url = api_base_url + "post/update"
+    return do_request(params,url,"post")
+
 def add_post_comment(params):
     params["via"] = "sublime text 2"
     url = api_base_url + "comment/add"

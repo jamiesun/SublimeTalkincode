@@ -37,7 +37,11 @@
     {
         "command":"add_tic_post",
         "caption":"Submit current topic"
-    },         
+    },
+    {
+        "command":"update_tic_post",
+        "caption":"Update current topic"
+    },          
     {
         "command":"add_tic_post_comment",
         "caption":"Comment current topic"
