@@ -3,8 +3,7 @@ SublimeTalkincode
 
 [Sublime Text 2](http://www.sublimetext.com/2) plugin for share source code and publish topic to [Talkincode](http://www.talkincode.org) 
 
-Install
-=======
+### Install
 
 Through [Package Control](http://wbond.net/sublime_packages/package_control)
 
@@ -17,21 +16,21 @@ or clone this repository in
 * Linux: `~/.Sublime Text 2/Packages/`
 * Portable Installation: `Sublime Text 2/Data/`
 
-Usage
-=====
+### Usage
 
 `Command Palette` > `Talkincode.org: ...`
 
 `Context menu` > `Talkincode.org`
 
-Features
-========
+### Features
 
 `Register new user`: join talkincode.org,You will receive a authkey
 
 `Post current code`: share current source code to talkincode.org
 
 `Post new topic`: Publish a topic and post to talkincode.org
+
+`Update current topic`:Update currnt topic 
 
 `Comment current topic`:Comment on the topic you open
 
@@ -46,8 +45,7 @@ Features
 *************************************************************************
 [submineTalkincode](http://www.talkincode.org) 是一个[Sublime Text 2](http://www.sublimetext.com/2) 的插件，通过这个插件可以直接在sublime text 2 中分享代码和讨论话题 
 
-安装
-=======
+### 安装
 
 通过 [Package Control](http://wbond.net/sublime_packages/package_control)
 
@@ -60,8 +58,7 @@ Features
 * Linux: `~/.Sublime Text 2/Packages/`
 * Portable Installation: `Sublime Text 2/Data/`
 
-如何使用
-========
+### 如何使用
 
 * `Tools` > `Command Palette` > `Talkincode.org: ...`
 
@@ -69,8 +66,7 @@ Features
 
 * 大部分功能都有快捷键，在菜单 `preferences` > `Package Settings` > `Sublime Talkincode` 你可以找到,   你也可以设置自己习惯的快捷键。
 
-功能特性
-========
+### 功能特性
 
 `Register new user`: 注册成为talkincode.org的成员，你将获得一个authkey，在发布内容时它用来认证身份
 
@@ -88,5 +84,7 @@ Features
     print 'hello world'
 
 `Post new topic`: 发布一个讨论话题到talkincode.org，在talkincode.org中你可以讨论各种关于编程的话题，直接在很酷的sublime text 2编辑器中讨论，这看起来更酷了。
+
+`Update current topic`:修改当前打开的主题
 
 `Comment current topic`:对当前打开的话题进行评论
