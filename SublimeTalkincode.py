@@ -292,48 +292,44 @@ class AddTicCode(sublime_plugin.TextCommand):
         self.view = view
 
     def run(self, edit):
-        def on_input(title):
-            try:
-                view = self.view
-                region = sublime.Region(0L, view.size())
-                filename = os.path.basename(view.file_name())
-                content = view.substr(region)
-                tagsgrp = re.search("@tags:(.*)\n",content)
-                idgrp = re.search("@id:(.*)\n",content)
+        def on_title(title):
+            def on_tags(tags):
+                try:
+                    view = self.view
+                    region = sublime.Region(0L, view.size())
+                    filename = os.path.basename(view.file_name())
+                    content = view.substr(region)
+                    idgrp = re.search("@id:(.*)\n",content)
+                    pid = idgrp and idgrp.group(1)
 
-                tags = tagsgrp and tagsgrp.group(1)
-                pid = idgrp and idgrp.group(1)
-                if not title:
-                    sublime.error_message("title can not be empty ")
-                    return
-                else:
-                    if not sublime.ok_cancel_dialog("submit code to talkincode.org,continue?"):
-                        return
-                    filename = view.file_name()
-                    fext = os.path.splitext(filename)[1]
-                    if len(fext) >1:
-                        fext = fext[1:]
-                    lang = api.get_lang(fext)
-                    tags = tags and "%s,%s"%(lang,tags) or lang
-                    params = dict(pid=pid,
-                        title=title,
-                        author=settings.get("author"),
-                        email=settings.get("email"),
-                        tags=tags,
-                        content=content,
-                        lang=lang,
-                        filename=os.path.basename(view.file_name()),
-                        authkey=settings.get("authkey"))
-                    
-                    result = api.add_code(params)
-                    if result and result.has_key("error"):
-                        sublime.error_message("fail %s"%result["error"])
-                    else:
-                        sublime.message_dialog("success")
-            except Exception,e:
-                sublime.error_message("submit code error %s "%e)
+                    if sublime.ok_cancel_dialog("submit code to talkincode.org,continue?"):
+                        filename = view.file_name()
+                        fext = os.path.splitext(filename)[1]
+                        if len(fext) >1:
+                            fext = fext[1:]
+                        lang = api.get_lang(fext)
+                        tags = tags and "%s,%s"%(lang,tags) or lang
+                        params = dict(pid=pid,
+                            title=title,
+                            author=settings.get("author"),
+                            email=settings.get("email"),
+                            tags=tags,
+                            content=content,
+                            lang=lang,
+                            filename=os.path.basename(view.file_name()),
+                            authkey=settings.get("authkey"))
+                        
+                        result = api.add_code(params)
+                        if result and result.has_key("error"):
+                            sublime.error_message("fail %s"%result["error"])
+                        else:
+                            sublime.message_dialog("success")
+                except Exception,e:
+                    sublime.error_message("submit code error %s "%e)
+            if title:
+                sublime.active_window().show_input_panel("input tags (Optional)::","",on_tags,None,None)
 
-        sublime.active_window().show_input_panel("input title::","",on_input,None,None)
+        sublime.active_window().show_input_panel("input title (required)::","",on_title,None,None)
 
 
 ########################################################################################
