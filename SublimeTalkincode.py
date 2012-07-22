@@ -14,10 +14,10 @@ sys.setdefaultencoding('utf-8')
 """
 settings = sublime.load_settings("SublimeTalkincode.sublime-settings")
 
-register_flag = "Talkincode.org Register:"
-codeid_flag = "Talkincode.org @codeid:"
-postid_flag = "Talkincode.org @postid:"
-newpost_flag = "Talkincode.org new Topic:"
+# register_flag = "Talkincode.org Register:"
+# codeid_flag = "Talkincode.org @codeid:"
+# postid_flag = "Talkincode.org @postid:"
+# newpost_flag = "Talkincode.org new Topic:"
 
 ########################################################################################
 ####   Talkincode.org Register                  
@@ -64,7 +64,6 @@ def get_code_content(result,idx):
         raise Exception(codeobj.get("error"))
 
     code_file = open(code_file_path,"wb")
-    code_file.write("%s%s\n"%(codeid_flag,uid))
     code_file.write(codeobj['content'])
     code_file.close()
     return code_file_path
@@ -87,6 +86,7 @@ class QueryTicMyCodes(sublime_plugin.WindowCommand):
                     return
                 code_view = self.window.open_file(get_code_content(result,idx))
                 self.window.focus_view(code_view)
+                code_view.settings().set("codeid",result[idx]["id"])
 
             self.window.show_quick_panel(items,on_code_click)            
         except Exception, e:
@@ -113,6 +113,7 @@ class QueryTicCodes(sublime_plugin.WindowCommand):
                         return
                     code_view = self.window.open_file(get_code_content(result,idx))
                     self.window.focus_view(code_view)
+                    code_view.settings().set("codeid",result[idx]["id"])
 
                 self.window.show_quick_panel(items,on_code_click)            
             except Exception, e:
@@ -133,7 +134,6 @@ def get_post_content(result,idx):
     postobj = post_result['post']
     comments = post_result['comments']
     code_file = open(post_file_path,"wb")
-    code_file.write("%s%s\n\n"%(postid_flag,uid))
     code_file.write("### @title:%s\n"%postobj['title'])
     code_file.write("### @tags:%s\n"%postobj['tags'])
     code_file.write("### @author:%s\n"%postobj['username'])
@@ -173,6 +173,7 @@ class QueryTicMyPosts(sublime_plugin.WindowCommand):
                     return
                 code_view = self.window.open_file(get_post_content(result,idx))
                 self.window.focus_view(code_view)
+                code_view.settings().set("postid",result[idx]["id"])
 
             self.window.show_quick_panel(items,on_post_click)            
         except Exception, e:
@@ -201,6 +202,7 @@ class QueryTicPosts(sublime_plugin.WindowCommand):
                         return
                     code_view = self.window.open_file(get_post_content(result,idx))
                     self.window.focus_view(code_view)
+                    code_view.settings().set("postid",result[idx]["id"])
 
                 self.window.show_quick_panel(items,on_post_click)            
             except Exception, e:
@@ -212,13 +214,10 @@ class RefreshTicPost(sublime_plugin.TextCommand):
     def __init__(self,view):
         self.view = view
     def is_visible(self):
-        return self.view.find(postid_flag,0) is not None      
+        return self.view.settings().get("postid")     
 
     def run(self, edit):    
-        region = sublime.Region(0L, self.view.size())
-        content = self.view.substr(region)
-        postid_grp = re.search("%s(.*)\n"%postid_flag,content)
-        uid = postid_grp and postid_grp.group(1)
+        uid = self.settings().get("postid")
         try:
             post_file_path = "%s/%s.md"%(os.environ["TMP"],uid)
             post_result = api.get_post(uid)
@@ -230,7 +229,6 @@ class RefreshTicPost(sublime_plugin.TextCommand):
             postobj = post_result['post']
             comments = post_result['comments']
             code_file = open(post_file_path,"wb")
-            code_file.write("%s%s\n\n"%(postid_flag,uid))
             code_file.write("## @title:%s\n"%postobj['title'])
             code_file.write("## @tags:%s\n"%postobj['tags'])
             code_file.write("## @author:%s\n"%postobj['username'])
@@ -314,16 +312,18 @@ class AddTicPostForm(sublime_plugin.TextCommand):
     def run(self, edit):
         rview = sublime.active_window().new_file()
         sublime.active_window().focus_view(rview)
-        rview.insert(edit,0,"%s\n@title:\n@tags:\n@content:"%newpost_flag)
+        rview.insert(edit,0,"@title:\n@tags:\n@content:")
+        rview.settings().set("AddTicPostForm",True) 
         
     def is_visible(self):
-        return self.view.find(newpost_flag,0,sublime.IGNORECASE) is None         
+        return self.view.settings().get("AddTicPostForm")  is None         
 
 class AddTicPost(sublime_plugin.TextCommand):
     def __init__(self,view):
         self.view = view
     def is_visible(self):
-        return self.view.find(newpost_flag,0,sublime.IGNORECASE) is not None           
+        return self.view.settings().get("AddTicPostForm")        
+
     def run(self, edit):
         try:
             view = self.view
@@ -364,16 +364,15 @@ class UpdateTicPost(sublime_plugin.TextCommand):
     def __init__(self,view):
         self.view = view
     def is_visible(self):
-        return self.view.find(postid_flag,0,sublime.IGNORECASE) is not None           
+        return self.view.settings().get("postid")        
     def run(self, edit):
         try:
             view = self.view
             region = sublime.Region(0L, view.size())
             content_src = view.substr(region)
-            postidgrp = re.search("@postid:(.*)\n",content_src)
             titlegrp = re.search("@title:(.*)\n",content_src)
             tagsgrp = re.search("@tags:(.*)\n",content_src)
-            postid = postidgrp and postidgrp.group(1)
+            postid =self.view.settings().get("postid")       
             title = titlegrp and titlegrp.group(1)
             tags = tagsgrp and tagsgrp.group(1)
 
@@ -406,15 +405,12 @@ class AddTicPostComment(sublime_plugin.TextCommand):
     def __init__(self,view):
         self.view = view
     def is_visible(self):
-        return self.view.find(postid_flag,0) is not None 
+        return self.view.settings().get("postid")    
 
     def run(self, edit):    
         view = self.view
         def on_input(cmtxt):
-            region = sublime.Region(0L, view.size())
-            content = view.substr(region)
-            postid_grp = re.search("%s(.*)\n"%postid_flag,content)
-            postid = postid_grp and postid_grp.group(1)  
+            postid = self.view.settings().get("postid")       
             try:
                 params = dict(postid=postid,content=cmtxt,authkey=settings.get("authkey"))
                 result = api.add_post_comment(params)
@@ -429,6 +425,171 @@ class AddTicPostComment(sublime_plugin.TextCommand):
         sublime.active_window().show_input_panel("Comment content::","",on_input,None,None)
 
 
+########################################################################################
+####   Talkincode.org  project              
+########################################################################################     
+def get_project_content(result,idx):
+    uid = result[idx]["id"]
+    proj_file_path = "%s/%s.md"%(os.environ["TMP"],uid)
+
+    projobj = api.get_project(uid)
+
+    if not projobj:
+        raise Exception(projobj.get("content not exists"))
+    if type(projobj) ==dict and projobj.has_key("error"):
+        raise Exception(projobj.get("error"))
+
+    proj_file = open(proj_file_path,"wb")
+    proj_file.write("### @title:%s\n"%projobj['name'])
+    proj_file.write("### @tags:%s\n"%projobj['tags'])
+    proj_file.write("### @owner:%s\n"%projobj['owner'])
+    proj_file.write("### @image:%s\n"%projobj['image'])
+    proj_file.write("### @license:%s\n"%projobj['license'])
+    proj_file.write("### @homepage:%s\n"%projobj['homepage'])
+    proj_file.write("### @lang:%s\n"%projobj['lang'])
+    proj_file.write("### @content:\n\n")
+    proj_file.write(projobj['description'])
+    proj_file.close()   
+    return proj_file_path
+
+class QueryTicProjects(sublime_plugin.WindowCommand):
+    def run(self):      
+        sublime.status_message("search project, please wait......")
+        def on_input(keywd):
+            try:
+                result = api.list_projects(keywd)
+                if not result:
+                    return
+
+                if type(result) ==dict and result.has_key("error"):
+                    raise Exception(result.get("error"))
+
+                def format_it(row):
+                    return  ["%s - %s"%(row["name"],row["tags"]),
+                             "owner:%s  hits : %s %s"%(row["owner"],row["hits"],row["created"]  )]
+                items = [format_it(row) for row in result]
+
+                def on_post_click(idx):
+                    if idx == -1:
+                        return
+                    try:
+                        proj_view = self.window.open_file(get_project_content(result,idx))
+                        sublime.active_window().focus_view(proj_view)
+                        proj_view.settings().set("project_id", result[idx]["id"])
+                    except Exception,e:
+                        sublime.error_message("get project error:%s"%e)    
+
+                self.window.show_quick_panel(items,on_post_click)            
+            except Exception, e:
+                sublime.error_message("error:%s"%e)            
+        self.window.show_input_panel("search keyword::","",on_input,None,None)   
+
+class AddTicProjectForm(sublime_plugin.TextCommand):
+    def __init__(self,view):
+        self.view = view           
+
+    def run(self, edit):
+        rview = sublime.active_window().new_file()
+        sublime.active_window().focus_view(rview)
+        form = "@title:\n@image:\n@owner:\n@license:\n@homepage:\n@lang:\n@tags:\n@content:\n"
+        rview.insert(edit,0,form)
+        rview.settings().set("AddTicProjectForm",True)
+        
+    def is_visible(self):
+        return self.view.settings().get("AddTicProjectForm") is None
+
+class AddTicProject(sublime_plugin.TextCommand):
+    def __init__(self,view):
+        self.view = view
+    def is_visible(self):
+        return self.view.settings().get("AddTicProjectForm")       
+    def run(self, edit):
+        try:
+            view = self.view
+            region = sublime.Region(0L, view.size())
+            content_src = view.substr(region)
+            titlegrp = re.search("@title:(.*)\n",content_src)
+            tagsgrp = re.search("@tags:(.*)\n",content_src)
+            ownergrp = re.search("@owner:(.*)\n",content_src)
+            licensegrp = re.search("@license:(.*)\n",content_src)
+            imagegrp = re.search("@image:(.*)\n",content_src)
+            homepagegrp = re.search("@homepage:(.*)\n",content_src)
+            langgrp = re.search("@lang:(.*)\n",content_src)
+
+            region2 = sublime.Region(content_src.index("@content:")+9, view.size())
+            content = view.substr(region2)
+
+            if not titlegrp or not content:
+                sublime.error_message("title,content can not be empty")
+            else:
+                if not sublime.ok_cancel_dialog("submit project to talkincode.org,continue?"):
+                    return
+                params = dict(
+                    title=titlegrp and titlegrp.group(1),
+                    image=imagegrp and imagegrp.group(1),
+                    tags=tagsgrp and tagsgrp.group(1),
+                    owner=ownergrp and ownergrp.group(1),
+                    license=licensegrp and licensegrp.group(1),
+                    homepage=homepagegrp and homepagegrp.group(1),
+                    lang=langgrp and langgrp.group(1),
+                    content=content,
+                    authkey=settings.get("authkey"))
+                result = api.add_project(params)
+                if result and result.has_key("error"):
+                    raise Exception(result["error"])
+                else:
+                    sublime.message_dialog("success")
+        except Exception,e:
+            sublime.error_message("submit Project error %s "%e)
+
+class UpdateTicProject(sublime_plugin.TextCommand):
+    def __init__(self,view):
+        self.view = view
+
+    def is_visible(self):
+         return self.view.settings().get("project_id")    
+
+    def run(self, edit):
+        try:
+            view = self.view
+            region = sublime.Region(0L, view.size())
+            content_src = view.substr(region)
+            titlegrp = re.search("@title:(.*)\n",content_src)
+            tagsgrp = re.search("@tags:(.*)\n",content_src)
+            ownergrp = re.search("@owner:(.*)\n",content_src)
+            licensegrp = re.search("@license:(.*)\n",content_src)
+            imagegrp = re.search("@image:(.*)\n",content_src)
+            homepagegrp = re.search("@homepage:(.*)\n",content_src)
+            langgrp = re.search("@lang:(.*)\n",content_src)
+
+            region2 = sublime.Region(content_src.index("@content:")+9, view.size())
+            content = view.substr(region2)
+
+            if  not content:
+                sublime.error_message("content can not be empty")
+            else:
+                if not sublime.ok_cancel_dialog("submit topic to talkincode.org,continue?"):
+                    return
+                
+                params = dict(
+                    id=self.view.settings().get("project_id"),
+                    title=titlegrp and titlegrp.group(1),
+                    image=imagegrp and imagegrp.group(1),
+                    tags=tagsgrp and tagsgrp.group(1),
+                    owner=ownergrp and ownergrp.group(1),
+                    license=licensegrp and licensegrp.group(1),
+                    homepage=homepagegrp and homepagegrp.group(1),
+                    lang=langgrp and langgrp.group(1),
+                    content=content,
+                    authkey=settings.get("authkey"))
+                
+                result = api.update_project(params)
+                if result and result.has_key("error"):
+                    raise Exception(result["error"])
+                else:
+                    sublime.message_dialog("success")
+        except Exception,e:
+            sublime.error_message("submit Project error %s "%e)
 
 class BrowserTicSite(sublime_plugin.WindowCommand):
     def run(self):

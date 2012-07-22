@@ -20,6 +20,7 @@
             { "command": "query_tic_my_codes", "caption": "Fetch my code" },
             { "command": "query_tic_posts", "caption": "Search topic" },
             { "command": "query_tic_my_posts", "caption": "Fetch my topic" },
+            { "command": "query_tic_projects", "caption": "Search project" },
             { "caption": "-" },
             { "command": "refresh_tic_post", "caption": "Refresh current topic" },
             { "caption": "-" }   
@@ -27,11 +28,11 @@
     },  
     {
         "command":"add_tic_code",
-        "caption":"Post current code"
+        "caption":"Send current code"
     },    
     {
         "command":"add_tic_post_form",
-        "caption":"Post new topic"
+        "caption":"Create new topic"
     },
     {
         "command":"add_tic_post",
@@ -40,7 +41,19 @@
     {
         "command":"update_tic_post",
         "caption":"Update current topic"
-    },          
+    },  
+    {
+        "command":"add_tic_project_form",
+        "caption":"Create new project"
+    },
+    {
+        "command":"add_tic_project",
+        "caption":"Submit current project"
+    },
+    {
+        "command":"update_tic_project",
+        "caption":"Update current project"
+    },               
     {
         "command":"add_tic_post_comment",
         "caption":"Comment current topic"

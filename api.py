@@ -1,7 +1,7 @@
 import urllib,urllib2
 import json
 
-api_base_url = "http://www.talkincode.org/api/"
+api_base_url = "http://127.0.0.1/api/"
 
 langset = {"java":"java","c":"c","cpp":"c++","sh":"shell",
            "pas":"pascal","rb":"ruby","php":"php",
@@ -70,6 +70,16 @@ def update_post(params):
     url = api_base_url + "post/update"
     return do_request(params,url,"post")
 
+def add_project(params):
+    params["via"] = "sublime text 2"
+    url = api_base_url + "project/add"
+    return do_request(params,url,"post")
+
+def update_project(params):
+    params["via"] = "sublime text 2"
+    url = api_base_url + "project/update"
+    return do_request(params,url,"post")    
+
 def add_post_comment(params):
     params["via"] = "sublime text 2"
     url = api_base_url + "comment/add"
@@ -78,6 +88,10 @@ def add_post_comment(params):
 def get_post(uid):
     url = api_base_url + "post/get/%s"%uid
     return do_request({},url,"get")    
+
+def get_project(uid):
+    url = api_base_url + "project/get/%s"%uid
+    return do_request({},url,"get")  
 
 def list_codes(q,limit=100):
     params = dict(q=q,limit=limit)
@@ -88,6 +102,11 @@ def list_posts(q,limit=100):
     params = dict(q=q,limit=limit)
     url = api_base_url + "post/index"
     return do_request(params,url,"get")
+
+def list_projects(q,limit=100):
+    params = dict(q=q,limit=limit)
+    url = api_base_url + "project/index"
+    return do_request(params,url,"get")    
 
 def list_mycodes(authkey,limit=100):
     params = dict(authkey=authkey,limit=limit)
