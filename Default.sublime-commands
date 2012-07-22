@@ -1,6 +1,5 @@
         [
-            { "command": "register_tic_form", "caption": "Talkincode.org: Register new user" },
-            { "command": "register_tic", "caption": "Talkincode.org: Register submit" },
+            { "command": "register_tic", "caption": "Talkincode.org: Register new user" },
             { "caption": "-" },
             {
                 "caption": "Talkincode.org: User Settings",

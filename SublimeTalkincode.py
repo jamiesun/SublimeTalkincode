@@ -23,62 +23,33 @@ newpost_flag = "Talkincode.org new Topic:"
 ####   Talkincode.org Register                  
 ########################################################################################
 
-class RegisterTicForm(sublime_plugin.TextCommand):
-    def __init__(self,view):
-        self.view = view    
-
-    def run(self, edit):
-        rview = sublime.active_window().new_file()
-        sublime.active_window().focus_view(rview)
-        rview.insert(edit,0,"%s\n@username:\n@password:\n@email:\n"%register_flag)
-        self._visible = False
-
-    def is_visible(self):
-        return self.view.find(register_flag,0,sublime.IGNORECASE) is None
-
-
 class RegisterTic(sublime_plugin.TextCommand):
     def __init__(self,view):
-        self.view = view
-    def is_visible(self):
-        return self.view.find(register_flag,0) is not None      
+        self.view = view   
+        self.window = view.window() 
 
     def run(self, edit):
-        region = sublime.Region(0L, self.view.size())
-        content = self.view.substr(region)
-        username_grp = re.search("@username:(.*)\n",content)
-        passwd_grp = re.search("@password:(.*)\n",content)
-        email_grp = re.search("@email:(.*)\n",content)
+        def on_username(username):
+            def on_password(password):
+                def on_email(email):
+                    try:
+                        result = api.register(username,password,email)
+                        if result and result.has_key("error"):
+                            sublime.error_message("fail %s"%result["error"])
+                        else:
+                            settings.set("authkey",result["authkey"])
+                            settings.set("author",result["username"])
+                            settings.set("email",result["email"])
+                            sublime.save_settings('SublimeTalkincode.sublime-settings')
+                            sublime.message_dialog("success")
+                    except Exception, e:
+                        sublime.error_message("register user error  error %s "%e)
+                self.window.show_input_panel("Type Email::","",on_email,None,None)
+            self.window.show_input_panel("Type Password::","",on_password,None,None)
+        self.window.show_input_panel("Type Username::","",on_username,None,None)
 
-        username = username_grp and username_grp.group(1)
-        passwd = passwd_grp and passwd_grp.group(1)
-        email = email_grp and email_grp.group(1)
 
-        if not username or not passwd or not email:
-            sublime.error_message("username,password,email can not be empty")
-            return
 
-        if re.search("\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*",email) == None:
-            sublime.error_message("email is not valid")
-            return            
-
-        if sublime.ok_cancel_dialog("To be registered talkincode.org,continue?"):
-            try:
-                result = api.register(username,passwd,email)
-                if result and result.has_key("error"):
-                    sublime.error_message("fail %s"%result["error"])
-                else:
-                    settings.set("authkey",result["authkey"])
-                    settings.set("author",result["username"])
-                    settings.set("email",result["email"])
-                    sublime.save_settings('SublimeTalkincode.sublime-settings')
-                    sublime.message_dialog("success")
-                    region = sublime.Region(0L, self.view.size())
-                    self.view.replace(edit,region,"")
-                    sublime.active_window().run_command('close')                
-            except Exception, e:
-                sublime.error_message("register user error  error %s "%e)
-            
 ########################################################################################
 ####   Talkincode.org search                
 ########################################################################################
@@ -327,9 +298,9 @@ class AddTicCode(sublime_plugin.TextCommand):
                 except Exception,e:
                     sublime.error_message("submit code error %s "%e)
             if title:
-                sublime.active_window().show_input_panel("input tags (Optional)::","",on_tags,None,None)
+                sublime.active_window().show_input_panel("Type tags (Optional)::","",on_tags,None,None)
 
-        sublime.active_window().show_input_panel("input title (required)::","",on_title,None,None)
+        sublime.active_window().show_input_panel("Type title (required)::","",on_title,None,None)
 
 
 ########################################################################################

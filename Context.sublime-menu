@@ -6,8 +6,7 @@
         [
             { "command": "browser_tic_site", "caption": "Goto Talkincode.org" },
             { "caption": "-" },
-            { "command": "register_tic_form", "caption": "Register new user" },
-            { "command": "register_tic", "caption": "Register submit" },
+            { "command": "register_tic", "caption": "Register new user" },
             { "caption": "-" },
             {
                 "caption": "User Settings",
