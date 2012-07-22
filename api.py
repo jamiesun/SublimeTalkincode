@@ -1,7 +1,7 @@
 import urllib,urllib2
 import json
 
-api_base_url = "http://127.0.0.1/api/"
+api_base_url = "http://www.talkincode.org/api/"
 
 langset = {"java":"java","c":"c","cpp":"c++","sh":"shell",
            "pas":"pascal","rb":"ruby","php":"php",
